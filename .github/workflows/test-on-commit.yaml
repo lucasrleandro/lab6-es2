@@ -9,11 +9,12 @@ on:
 jobs:
   run-tests-ubuntu:
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
-        node-version: [15.x]
+        os: [macos-latest, windows-latest, ubuntu-latest]
+        node: 15.x
 
     steps:
       - uses: actions/checkout@v2
@@ -25,20 +26,4 @@ jobs:
         run: npm ci
       - run: npm test
 
-  run-tests-windows:
-
-    runs-on: windows-latest
-
-    strategy:
-      matrix:
-        node-version: [15.x]
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: npm ci
-      - run: npm test
+  
